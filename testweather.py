@@ -5,7 +5,7 @@ import urllib2
 from bs4 import BeautifulSoup
 import six
 import html5lib
-
+from selenium import webdriver
 
 
 class getWeather():
@@ -18,7 +18,12 @@ class getWeather():
         #html_doc = request.read()
         page = urllib2.urlopen(self.urlpath)
         html_doc = page.read()
-        print html_doc
+        driver = webdriver.PhantomJS(executable_path='../phantomjs-2.1.1-macosx/bin/phantomjs')
+        driver.get(self.urlpath)
+        #print html_doc
+        #print driver.page_source
+        html_doc = driver.page_source
+        driver.quit()
         print '====================='
         #response = urllib2.urlopen(request).read().decode("utf-8")
         #print response
@@ -32,10 +37,13 @@ class getWeather():
         #current_temperature = re.findall(r'<div.*?class="tem">(.*?)</div>', web, re.S)
         #current_temperature = re.findall(r'<div.*?class="tem"><span>(.*?)</span></div>', web, re.S)
         #web.div['class']='sk'
+        spanlist = []
         for i in web.find_all('div',class_='tem'):
-            span = i.find_all('span')
-            print span
-        return web.div
+            for x in i.find_all('span'):
+                spanlist.append(x.string)
+            #print span
+
+        return spanlist
     # def get_temp(self):
     #     finaltemp =[]
     #     while True:
@@ -59,7 +67,8 @@ def main():
     weather_spider = getWeather()
     getpage = weather_spider.get_page()
     getdom = weather_spider.find_temp(getpage)
-    print getdom
+    print 'the temperature now is /现在的温度是 %s '%(getdom[0].encode('utf-8'))
+    #print getdom[0]
     # getpage = weather_spider.get_temp()
     # print "get page success"
     # for x in getpage:
