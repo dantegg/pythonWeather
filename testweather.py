@@ -3,6 +3,8 @@ import string
 import re
 import urllib2
 from bs4 import BeautifulSoup
+import six
+import html5lib
 
 
 
@@ -16,10 +18,12 @@ class getWeather():
         #html_doc = request.read()
         page = urllib2.urlopen(self.urlpath)
         html_doc = page.read()
+        print html_doc
+        print '====================='
         #response = urllib2.urlopen(request).read().decode("utf-8")
         #print response
         #print "============"
-        response = BeautifulSoup(html_doc.decode("utf-8"))
+        response = BeautifulSoup(html_doc,"html5lib")
         print 'get response'
         return response
     def find_temp(self,web):
