@@ -74,8 +74,8 @@ def main():
     getpage = weather_spider.get_page()
     getdom = weather_spider.find_temp(getpage)
     gettime = weather_spider.find_time(getpage)
-    print 'the time now is(现在的时间是):%s'%(gettime[0].encode('utf-8'))
-    print 'the temperature now is /现在的温度是 %s '%(getdom[0].encode('utf-8'))
+    print 'the time is(温度采集时间是):%s'%(gettime[0].encode('utf-8'))
+    print 'the temperature is /采集温度是 %s '%(getdom[0].encode('utf-8'))
     #print getdom[0]
     # getpage = weather_spider.get_temp()
     # print "get page success"
