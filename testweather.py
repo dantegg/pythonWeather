@@ -18,7 +18,7 @@ class getWeather():
         #html_doc = request.read()
         page = urllib2.urlopen(self.urlpath)
         html_doc = page.read()
-        driver = webdriver.PhantomJS(executable_path='../phantomjs-2.1.1-macosx/bin/phantomjs')
+        driver = webdriver.PhantomJS(executable_path='../phantomjs/bin/phantomjs')
         driver.get(self.urlpath)
         #print html_doc
         #print driver.page_source
@@ -42,8 +42,14 @@ class getWeather():
             for x in i.find_all('span'):
                 spanlist.append(x.string)
             #print span
-
         return spanlist
+    def find_time(self,web):
+        print 'start find time'
+        timelist = []
+        for i in web.find_all('p',class_='time'):
+            for x in i.find_all('span'):
+                timelist.append(x.string)
+        return timelist
     # def get_temp(self):
     #     finaltemp =[]
     #     while True:
@@ -60,13 +66,15 @@ def main():
         ###############################
             爬取本市天气
             Author: dantegg_zhang
-            Version: 0.0.1
-            Date: 2016-10-12
+            Version: 0.0.2
+            Date: 2016-10-13
         ###############################
     """
     weather_spider = getWeather()
     getpage = weather_spider.get_page()
     getdom = weather_spider.find_temp(getpage)
+    gettime = weather_spider.find_time(getpage)
+    print 'the time now is(现在的时间是):%s'%(gettime[0].encode('utf-8'))
     print 'the temperature now is /现在的温度是 %s '%(getdom[0].encode('utf-8'))
     #print getdom[0]
     # getpage = weather_spider.get_temp()
