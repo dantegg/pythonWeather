@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import six
 import html5lib
 from selenium import webdriver
+import datetime
 
 
 class getWeather():
@@ -74,6 +75,9 @@ def main():
     getpage = weather_spider.get_page()
     getdom = weather_spider.find_temp(getpage)
     gettime = weather_spider.find_time(getpage)
+    now = datetime.datetime.now()
+    timeStyle = now.strftime("%Y-%m-%d %H:%M:%S")
+    print 'current system time is(当前系统时间是):%s'%timeStyle
     print 'the time is(温度采集时间是):%s'%(gettime[0].encode('utf-8'))
     print 'the temperature is /采集温度是 %s '%(getdom[0].encode('utf-8'))
     #print getdom[0]
