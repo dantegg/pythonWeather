@@ -9,6 +9,10 @@ from selenium import webdriver
 import datetime
 
 
+#import connectDB.py to save weather spider dantegg_zhang
+from connectDB import connectDB
+
+
 class getWeather():
     def __init__(self):
         self.urlpath = 'http://www.weather.com.cn/weather1d/101020100.shtml'
@@ -80,6 +84,19 @@ def main():
     print 'current system time is(当前系统时间是):%s'%timeStyle
     print 'the time is(温度采集时间是):%s'%(gettime[0].encode('utf-8'))
     print 'the temperature is /采集温度是 %s '%(getdom[0].encode('utf-8'))
+    ctime = gettime[0].encode('utf-8')
+    ctemp = getdom[0].encode('utf-8')
+
+    weatherRecord = {
+        "collectTime": ctime,
+        "ctemp":ctemp
+    }
+
+    useMongo = connectDB()
+    useMongoConnect = useMongo.connectMongo()
+    useMongoSave = useMongo.saveWeather(weatherRecord, useMongoConnect)ßßß 
+
+
     #print getdom[0]
     # getpage = weather_spider.get_temp()
     # print "get page success"
